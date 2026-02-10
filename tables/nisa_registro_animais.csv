@@ -1,0 +1,25 @@
+codigo,origem,nome_pai,data_nascimento,peso_nascimento,sexo,raca,composicao_racial,obs_comp_racial,sistema
+5603,CESM,Sheik,2025-03-05,35,F,mest,5/8,GHL 5/8 + 3/8 GIR,CONV
+5604,CESM,Sheik,2025-03-05,35,F,mest,5/8,GHL 5/8 + 3/8 GIR,CONV
+5600,CESM,Altaistclass,2025-03-08,35,F,mest,3/4,GHL 3/4 + 1/4 GIR,CONV
+5601,CESM,Altaistclass,2025-02-13,35,F,mest,3/4,GHL 3/4 + 1/4 GIR,CONV
+5611,CESM,Peter 3/4,2025-04-19,30,F,mest,5/8,GHL 3/4 + 1/4 GIR (5/8),CONV
+5616,CESM,Burbank-Blue- Horizon Altaburbank-Et,2025-04-20,38,F,mest,3/4,GHL 3/4 + 1/4 GIR,CONV
+5038,CEJHB,Napoleão,2025-05-22,,F,mest,3/4,GHL 3/4 + 1/4 GIR,CONV
+5628,CESM,Peter 3/4,2025-04-28,35,F,mest,5/8,GHL 3/4 + 1/4 GIR (5/8),CONV
+5606,CESM,Sheik,2025-03-17,35,F,mest,5/8,GHL 5/8 + 3/8 GIR,IPF2
+5609,CESM,Altaistclass,2025-04-14,35,F,mest,3/4,GHL 3/4 + 1/4 GIR,IPF2
+5021,CEJHB,BotafogoPS,2025-03-20,,F,mest,5/8,GHL 5/8 + 3/8 GIR,IPF2
+5638,CESM,Touro 926 (Girolando 5/8),2025-05-20,25,F,mest,5/8,GHL 3/4 + 1/4 GIR (5/8),IPF2
+5617,CESM,Burbank-Blue- Horizon Altaburbank-Et,2025-04-21,35,F,mest,3/4,GHL 3/4 + 1/4 GIR,IPF2
+5022,CEJHB,BotafogoPS,2025-03-23,,F,mest,5/8,GHL 5/8 + 3/8 GIR,IPF2
+5039,CEJHB,Playbonus,2025-05-23,,F,mest,3/4,GHL 3/4 + 1/4 GIR,IPF2
+5623,CESM,Comet-Rosilane Emh Altacomet-ET,2025-04-24,25,F,mest,3/4,GHL 3/4 + 1/4 GIR,IPF2
+5028,CEJHB,Falcão PS,2025-04-10,,F,mest,5/8,GHL 5/8 + 3/8 GIR,IPF4
+5602,CESM,Altaistclass,2025-02-16,35,F,mest,3/4,GHL 3/4 + 1/4 GIR,IPF4
+5015,CEJHB,Dreamdate,2025-02-16,,F,mest,3/4,GHL 3/4 + 1/4 GIR,IPF4
+5610,CESM,Peter 3/4,2025-04-16,35,F,mest,5/8,GHL 3/4 + 1/4 GIR (5/8),IPF4
+5607,CESM,Sheik,2025-03-17,35,F,mest,5/8,GHL 5/8 + 3/8 GIR,IPF4
+5614,CESM,Peter 3/4,2025-04-20,38,F,mest,3/4,GHL 3/4 + 1/4 GIR (3/4),IPF4
+5024,CEJHB,BotafogoPS,2025-03-25,,F,mest,5/8,GHL 5/8 + 3/8 GIR,IPF4
+5630,CESM,Burbank-Blue- Horizon Altaburbank-Et,2025-04-30,38,F,mest,3/4,GHL 3/4 + 1/4 GIR,IPF4

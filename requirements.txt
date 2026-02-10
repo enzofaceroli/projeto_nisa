@@ -1,0 +1,14 @@
+# Dash / Front-end
+dash
+dash-bootstrap-components
+plotly
+
+# Banco de dados
+psycopg2-binary
+
+# Manipulação de dados
+pandas
+numpy
+
+# Configuração / utilidades
+python-dotenv
