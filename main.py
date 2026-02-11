@@ -3,7 +3,7 @@ from db.queries import *
 import pandas as pd
 
 def main():
-    df = peso_medio_por_coleta()
+    df = peso_medio_por_sistema_por_composicao()
     
     print(df)
     

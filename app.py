@@ -4,7 +4,7 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-from db.queries import peso_medio_por_coleta, peso_medio_por_sistema, distribuicao_parasitas
+from db.queries import *
 
 external_stylesheets = [
     "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap"
@@ -38,6 +38,28 @@ QUERY_MAP = {
         "y": "quantidade_parasita",
         "title": "Distribuição de nível parastiário",
         "type": "bar"
+    },
+    
+    "peso_medio_ultima_coleta_sistema_composicao": {
+        "label": "Peso médio (última coleta) por sistema e composição racial",
+        "query_fn": peso_medio_por_sistema_por_composicao,
+        "x": "sistema",
+        "y": "peso_medio",
+        "color": "composicao_racial",
+        "barmode": "group",
+        "type": "bar",
+        "title": "Peso médio na última coleta por sistema e composição racial"
+    },
+    
+    "reatividade_media_ultima_coleta_sistema_composicao": {
+        "label": "Reatividade média (última coleta) por sistema e composição racial",
+        "query_fn": reatividade_media_por_composicao_por_sistema,
+        "x": "sistema",
+        "y": "reatividade_media",
+        "color": "composicao_racial",
+        "barmode": "group",
+        "type": "bar",
+        "title": "Reatividade média na última coleta por sistema e composição racial"
     }
 }
 
@@ -45,7 +67,6 @@ CHART_OPT = [
     {"label": v["label"], "value": k}
     for k,v in QUERY_MAP.items()
 ]
-
 
 app.layout = html.Div([
     html.Div([
@@ -81,13 +102,16 @@ def update_graph(query):
     config = QUERY_MAP[query]
     
     df = config["query_fn"]()
+    # print(df)
    
     if config["type"] == "bar":
         fig = px.bar(
             df,
             x=config["x"],
             y=config["y"],
-            title=config["title"]
+            title=config["title"],
+            color=config.get("color"),
+            barmode=config.get("barmode")
         )
         
         fig.update_xaxes(type='category')
@@ -102,7 +126,6 @@ def update_graph(query):
         )
 
     return fig
-
 
 if __name__ == '__main__':
     app.run(debug=False)
