@@ -60,6 +60,17 @@ QUERY_MAP = {
         "barmode": "group",
         "type": "bar",
         "title": "Reatividade média na última coleta por sistema e composição racial"
+    },
+    
+    "distribuicao_parasitas_por_sistema": {
+        "label": "Distribuição parasitária (última coleta) por sistema",
+        "query_fn": distribuicao_parasitas_por_sistema,
+        "x": "sistema",
+        "y": "qtd_animais",
+        "color": "parasita",
+        "barmode": "group",
+        "type": "bar",
+        "title": "Distribuição parasitária na última coleta por sistema e composição racial"
     }
 }
 
@@ -115,7 +126,7 @@ def update_graph(query):
         )
         
         fig.update_xaxes(type='category')
-        fig.update_traces(width=0.3)
+        fig.update_traces(width=None)
         
     else:
         fig = px.line(

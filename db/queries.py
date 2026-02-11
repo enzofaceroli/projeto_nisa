@@ -99,3 +99,31 @@ def reatividade_media_por_composicao_por_sistema():
     """
     
     return fetch_dataframe(query)
+
+def distribuicao_parasitas_por_sistema():
+    query = """
+    WITH ultima_coleta AS (
+        SELECT id_coleta
+        FROM coleta
+        ORDER BY data_coleta DESC
+        LIMIT 1
+    )
+    SELECT
+        ra.sistema,
+        p.parasita,
+        COUNT(DISTINCT p.codigo_animal) AS qtd_animais
+    FROM parasita p
+    JOIN registro_animal ra
+        ON ra.codigo = p.codigo_animal
+    WHERE p.id_coleta = (SELECT id_coleta FROM ultima_coleta)
+    GROUP BY
+        ra.sistema,
+        p.parasita
+    ORDER BY
+        ra.sistema,
+        p.parasita;
+    """
+    df = fetch_dataframe(query)
+    df['parasita'] = df['parasita'].astype(str)
+    
+    return df
