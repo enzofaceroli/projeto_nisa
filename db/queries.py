@@ -17,7 +17,7 @@ def peso_medio_por_coleta():
     query = """
         SELECT
             c.data_coleta,
-            AVG(p.peso) AS valor
+            AVG(p.peso) AS peso_medio
         FROM pesagem p
         JOIN coleta c ON p.id_coleta = c.id_coleta
         GROUP BY c.data_coleta
@@ -29,11 +29,21 @@ def peso_medio_por_coleta():
 def peso_medio_por_sistema():
     query = """
         SELECT
-            ra.sistema AS categoria,
-            AVG(p.peso) AS valor
+            ra.sistema AS sistema,
+            AVG(p.peso) AS peso_medio
         FROM pesagem p
         JOIN registro_animal ra ON ra.codigo = p.codigo_animal
         GROUP BY ra.sistema
         ORDER BY ra.sistema;
     """
+    return fetch_dataframe(query)
+
+def distribuicao_parasitas():
+    query = """
+        SELECT parasita, count(parasita) as quantidade_parasita
+        FROM parasita
+        GROUP BY parasita
+        ORDER BY parasita;
+    """
+    
     return fetch_dataframe(query)
