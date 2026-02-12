@@ -15,7 +15,7 @@ BASE_API_URL = "http://127.0.0.1:8000/api/"
 
 def fetch_chart_data(endpoint: str) -> pd.DataFrame:
     response = requests.get(f"{BASE_API_URL}{endpoint}")
-    print(f"{BASE_API_URL} + {endpoint}")
+
     response.raise_for_status()
     df = pd.DataFrame(response.json())
     
@@ -39,7 +39,7 @@ chart_map = {
         "x": "data_coleta",
         "y": "peso_medio",
         "title": "Peso médio por coleta",
-        "type": "bar"
+        "type": "line"
     },
     
     "peso_medio_sistema": {
