@@ -12,3 +12,7 @@ numpy
 
 # Configuração / utilidades
 python-dotenv
+
+# API
+fastapi[standard]
+pydantic

@@ -3,19 +3,39 @@ from dash import dcc, html, Input, Output
 import plotly.express as px
 import pandas as pd
 import numpy as np
-
-from db.queries import *
+import requests
 
 external_stylesheets = [
     "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap"
 ]
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets, requests_pathname_prefix="/dashboard/")
 
-QUERY_MAP = {
+BASE_API_URL = "http://127.0.0.1:8000/api/"
+
+def fetch_chart_data(endpoint: str) -> pd.DataFrame:
+    response = requests.get(f"{BASE_API_URL}{endpoint}")
+    print(f"{BASE_API_URL} + {endpoint}")
+    response.raise_for_status()
+    df = pd.DataFrame(response.json())
+    
+    return df
+
+chart_map = {
+    # "diferenca_peso_medio_sistema_composicao": {
+    #     "label": "Ganho de peso médio por sistema por composição",
+    #     "endpoint": "",
+    #     "x": "sistema",
+    #     "y": "diferenca_peso",
+    #     "color": "composicao_racial",
+    #     "barmode": "group",
+    #     "type": "bar",
+    #     "title": "Ganho de peso médio por sistema por composição"
+    # },
+    
     "peso_medio_coleta": {
         "label": "Peso médio por coleta",
-        "query_fn": peso_medio_por_coleta,
+        "endpoint": "pesos/media/coletas",
         "x": "data_coleta",
         "y": "peso_medio",
         "title": "Peso médio por coleta",
@@ -24,25 +44,25 @@ QUERY_MAP = {
     
     "peso_medio_sistema": {
         "label": "Peso médio por sistema",
-        "query_fn": peso_medio_por_sistema,    
+        "endpoint": "pesos/media/sistemas",    
         "x": "sistema",
         "y": "peso_medio",
         "title": "Peso médio por sistema",
         "type": "bar"
     },
     
-    "distribuicao_parasitas": {
-        "label": "Distribuição de nível parasitário",
-        "query_fn": distribuicao_parasitas,
-        "x": "parasita",
-        "y": "quantidade_parasita",
-        "title": "Distribuição de nível parastiário",
-        "type": "bar"
-    },
+    # "distribuicao_parasitas": {
+    #     "label": "Distribuição de nível parasitário",
+    #     "endpoint": "",
+    #     "x": "parasita",
+    #     "y": "quantidade_parasita",
+    #     "title": "Distribuição de nível parastiário",
+    #     "type": "bar"
+    # },
     
     "peso_medio_ultima_coleta_sistema_composicao": {
         "label": "Peso médio (última coleta) por sistema e composição racial",
-        "query_fn": peso_medio_por_sistema_por_composicao,
+        "endpoint": "pesos/media/sistema-composicao",
         "x": "sistema",
         "y": "peso_medio",
         "color": "composicao_racial",
@@ -53,7 +73,7 @@ QUERY_MAP = {
     
     "reatividade_media_ultima_coleta_sistema_composicao": {
         "label": "Reatividade média (última coleta) por sistema e composição racial",
-        "query_fn": reatividade_media_por_composicao_por_sistema,
+        "endpoint": "reatividade/media/sistema-composicao",
         "x": "sistema",
         "y": "reatividade_media",
         "color": "composicao_racial",
@@ -62,21 +82,21 @@ QUERY_MAP = {
         "title": "Reatividade média na última coleta por sistema e composição racial"
     },
     
-    "distribuicao_parasitas_por_sistema": {
-        "label": "Distribuição parasitária (última coleta) por sistema",
-        "query_fn": distribuicao_parasitas_por_sistema,
-        "x": "sistema",
-        "y": "qtd_animais",
-        "color": "parasita",
-        "barmode": "group",
-        "type": "bar",
-        "title": "Distribuição parasitária na última coleta por sistema e composição racial"
-    }
+    # "distribuicao_parasitas_por_sistema": {
+    #     "label": "Distribuição parasitária (última coleta) por sistema",
+    #     "endpoint": "",
+    #     "x": "sistema",
+    #     "y": "qtd_animais",
+    #     "color": "parasita",
+    #     "barmode": "group",
+    #     "type": "bar",
+    #     "title": "Distribuição parasitária na última coleta por sistema e composição racial"
+    # }
 }
 
 CHART_OPT = [
     {"label": v["label"], "value": k}
-    for k,v in QUERY_MAP.items()
+    for k,v in chart_map.items()
 ]
 
 app.layout = html.Div([
@@ -109,11 +129,11 @@ app.layout = html.Div([
     Output('main-graph', 'figure'),
     Input('dd-grafico', 'value')
 )
-def update_graph(query):
-    config = QUERY_MAP[query]
+
+def update_graph(chart_key):
+    config = chart_map[chart_key]
     
-    df = config["query_fn"]()
-    # print(df)
+    df = fetch_chart_data(config["endpoint"])
    
     if config["type"] == "bar":
         fig = px.bar(
@@ -126,7 +146,7 @@ def update_graph(query):
         )
         
         fig.update_xaxes(type='category')
-        fig.update_traces(width=None)
+        fig.update_traces(width=0.25)
         
     else:
         fig = px.line(

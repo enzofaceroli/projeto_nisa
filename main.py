@@ -1,11 +1,11 @@
-from db.connection import fetch_dataframe
-from db.queries import *
-import pandas as pd
+from fastapi import FastAPI
+from fastapi.middleware.wsgi import WSGIMiddleware
 
-def main():
-    df = peso_medio_por_sistema_por_composicao()
-    
-    print(df)
-    
-if __name__ == '__main__':
-    main()
+from api.main import app as api_app
+from dash_app.app import app as dash_app
+
+dash_server = WSGIMiddleware(dash_app.server)
+
+api_app.mount("/dashboard", dash_server)
+
+app = api_app

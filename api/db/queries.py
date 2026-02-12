@@ -1,4 +1,4 @@
-from db.connection import fetch_dataframe
+from api.db.connection import fetch_dataframe
 
 def peso_por_animal(codigo_animal: str):
     query = """
@@ -12,6 +12,69 @@ def peso_por_animal(codigo_animal: str):
         ORDER BY c.data_coleta;
     """
     return fetch_dataframe(query, params=(codigo_animal,))
+
+def diferenca_peso_por_sistema_por_composicao():
+    query = """
+        WITH primeira_coleta AS (
+            SELECT id_coleta
+            FROM coleta
+            ORDER BY data_coleta ASC
+            LIMIT 1
+        ), 
+        
+        ultima_coleta AS (
+            SELECT id_coleta
+            FROM coleta
+            ORDER BY data_coleta DESC
+            LIMIT 1
+        ),
+        
+        peso_primeira AS (
+            SELECT ra.sistema, 
+            ra.composicao_racial,
+            AVG (p.peso) as peso_medio_primeira
+            
+            FROM pesagem p
+            JOIN registro_animal ra
+                ON ra.codigo = p.codigo_animal
+                
+            WHERE p.id_coleta = (SELECT id_coleta FROM primeira_coleta)
+            GROUP BY
+                ra.sistema,
+                ra.composicao_racial
+        ),
+        
+        peso_ultima AS (
+            SELECT ra.sistema, 
+            ra.composicao_racial,
+            AVG (p.peso) as peso_medio_ultima
+            
+            FROM pesagem p
+            JOIN registro_animal ra
+                ON ra.codigo = p.codigo_animal
+                
+            WHERE p.id_coleta = (SELECT id_coleta FROM ultima_coleta)
+            GROUP BY
+                ra.sistema,
+                ra.composicao_racial
+        )
+        
+        SELECT u.sistema,
+        u.composicao_racial,
+        u.peso_medio_ultima - p.peso_medio_primeira as diferenca_peso
+        
+        FROM peso_ultima u
+        JOIN peso_primeira p
+        ON
+            p.sistema = u.sistema
+            AND p.composicao_racial = u.composicao_racial
+        
+        ORDER BY
+            u.sistema,
+            u.composicao_racial;
+    """
+    
+    return fetch_dataframe(query)
 
 def peso_medio_por_coleta():
     query = """
@@ -74,7 +137,7 @@ def distribuicao_parasitas():
     
     return fetch_dataframe(query)
 
-def reatividade_media_por_composicao_por_sistema():
+def reatividade_media_por_sistema_por_composicao():
     query = """
     WITH ultima_coleta AS (
         SELECT id_coleta
