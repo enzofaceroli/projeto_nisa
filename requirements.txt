@@ -4,7 +4,7 @@ dash-bootstrap-components
 plotly
 
 # Banco de dados
-psycopg2-binary
+sqlalchemy
 
 # Manipulação de dados
 pandas

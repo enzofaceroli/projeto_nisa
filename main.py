@@ -1,4 +1,3 @@
-from fastapi import FastAPI
 from fastapi.middleware.wsgi import WSGIMiddleware
 
 from api.main import app as api_app

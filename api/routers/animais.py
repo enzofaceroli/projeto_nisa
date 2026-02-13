@@ -17,7 +17,6 @@ async def animais():
     df = fetch_dataframe(query)
     
     return df.to_dict(orient="records")
+  
 
-@router.post("")
-async def animais_post():
-    pass    
+    
